@@ -20,4 +20,5 @@ export const FADE_DOWN_ANIMATION_VARIANTS = {
     },
     show: {
       opacity: 1,
-    },
+    }}
+    
