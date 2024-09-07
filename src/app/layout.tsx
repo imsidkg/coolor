@@ -5,12 +5,11 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+  UserButton,
+} from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from '@/components/Header'
-
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,26 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en">
-      <body>
-       
-        
-        <Header/>
-        {children}
-      </body>
-    </html>
-  </ClerkProvider>
-//   <html>
-//   <body>
-//     <ClerkProvider>
-//       <SignedIn>
-//         <Header/>
-//         {children}</SignedIn>
-//       <SignedOut>
-//         <RedirectToSignUp />
-//       </SignedOut>
-//     </ClerkProvider>
-//   </body>
-// </html>
+      <html lang="en">
+        <body>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

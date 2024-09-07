@@ -4,6 +4,7 @@ import React from 'react'
 type Props = {}
 
 const page = (props: Props) => {
+  
   return (
     <div className="flex h-screen  justify-center">
       <div className="mt-20">
@@ -11,7 +12,7 @@ const page = (props: Props) => {
       <SignIn />
 
       </div>
-    </div>
+    </div>  
   )
 }
 
