@@ -18,7 +18,7 @@ const page = () => {
 
       const color = getRandomColor();
       await animate(
-        scope.current.querySelector(target),
+        scope.current?.querySelector(target),
         {
           fill: color,
         },
