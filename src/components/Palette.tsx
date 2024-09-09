@@ -58,6 +58,7 @@ import React, { useState } from "react";
 import { colord, extend } from "colord";
 import namesPlugin from "colord/plugins/names";
 import { handleColorTextClass } from "@/lib/utils";
+import Options from "./Options";
 extend([namesPlugin]);
 
 type Props = {
@@ -91,6 +92,7 @@ const Palette = ({ color }: Props) => {
         <h3 className="text-xl lg:text-[30px] uppercase font-semibold cursor-pointer text-center">
           {colorInstance.replace(/^#/, "")}
         </h3>
+        <Options currentColor={color} />
 
         <p className="text-[11px] opacity-[0.5] capitalize mt-[9px]">
           ~ {colorName}
