@@ -14,11 +14,11 @@ const page = () => {
   };
 
   const animateWithRandomColors = async(target:string) => {
-    while(1){
+    while(true){
 
       const color = getRandomColor();
       await animate(
-        scope.current?.querySelector(target),
+      target,
         {
           fill: color,
         },

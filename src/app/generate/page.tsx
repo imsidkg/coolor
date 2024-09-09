@@ -24,9 +24,9 @@ const page = (props: Props) => {
 
   
 
-  // useEffect(() => {
-  //   router.replace(`/colors/${routeParam}`);
-  // }) 
+  useEffect(() => {
+    router.replace(`/colors/${routeParam}`);
+  }) 
 
   return (
     <div className="h-screen bg-white w-screen flex justify-center items-center">
