@@ -59,6 +59,7 @@ import { colord, extend } from "colord";
 import namesPlugin from "colord/plugins/names";
 import { handleColorTextClass } from "@/lib/utils";
 import Options from "./Options";
+import { useMediaQuery } from "@/hooks/use-media-query";
 extend([namesPlugin]);
 
 type Props = {
@@ -75,6 +76,8 @@ const Palette = ({ color }: Props) => {
 
   const colorName = handleColorName(colorInstance);
   const colorTextLumi = handleColorTextClass(colorInstance);
+
+  const isDesktop = useMediaQuery("(min-width:768px)")
 
   return (
     <div
