@@ -36,22 +36,12 @@
 //           ~{colorName}
 //         </p>
 //       </div>
-      
+
 //     </div>
 //   );
 // };
 
 // export default Palette;
-
-
-
-
-
-
-
-
-
-
 
 "use client";
 import React, { useState } from "react";
@@ -60,6 +50,8 @@ import namesPlugin from "colord/plugins/names";
 import { handleColorTextClass } from "@/lib/utils";
 import Options from "./Options";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { motion } from "framer-motion";
+import { columnChildVariant, columVariant } from "@/lib/variants";
 extend([namesPlugin]);
 
 type Props = {
@@ -68,7 +60,7 @@ type Props = {
 
 const Palette = ({ color }: Props) => {
   const [colorInstance, setColorInstance] = useState(`#${color}`);
-  
+
   // Function to handle getting the color name
   const handleColorName = (colorHex: string) => {
     return colord(colorHex).toName({ closest: true });
@@ -77,19 +69,34 @@ const Palette = ({ color }: Props) => {
   const colorName = handleColorName(colorInstance);
   const colorTextLumi = handleColorTextClass(colorInstance);
 
-  const isDesktop = useMediaQuery("(min-width:768px)")
+  const isDesktop = useMediaQuery("(min-width:768px)");
 
   return (
-    <div
+    <motion.div
+    variants={columVariant}
+    initial={'start'}
+    whileHover={'show'}
+
       style={{
-        backgroundColor: colorInstance, 
+        backgroundColor: colorInstance,
       }}
-      className="w-full lg:h-screen h-full flex flex-col justify-center items-center px-[5px] relative" 
+      className="w-full lg:h-screen h-full flex flex-col justify-center items-center px-[5px] relative"
     >
-      
+      {isDesktop ? (
+        <motion.div variants={columnChildVariant}>
+          <Options currentColor={color} />
+        </motion.div>
+      ) : (
+        <div>
+         
+          <Options currentColor={color} />
+        </div>
+      )}
       <div
-        className={`lg:absolute bottom-16 left-0 flex flex-col items-center w-full ${colorTextLumi === "white" ? "text-white" : "text-black"}`}
-        style={{ padding: "20px 0" }} 
+        className={`lg:absolute bottom-16 left-0 flex flex-col items-center w-full ${
+          colorTextLumi === "white" ? "text-white" : "text-black"
+        }`}
+        style={{ padding: "20px 0" }}
       >
         {/* Color hex value */}
         <h3 className="text-xl lg:text-[30px] uppercase font-semibold cursor-pointer text-center">
@@ -101,7 +108,7 @@ const Palette = ({ color }: Props) => {
           ~ {colorName}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
