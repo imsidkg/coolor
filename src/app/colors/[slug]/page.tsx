@@ -14,7 +14,7 @@ const page = ({params} : {params : {slug:string}} ) => {
 
 
   return (
-    <div>
+    <div className="flex lg:flex-row flex-col w-full  h-screen">
         <p>
             {generatedColors}
         </p>
