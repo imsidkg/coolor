@@ -15,9 +15,7 @@ const page = ({params} : {params : {slug:string}} ) => {
 
   return (
     <div className="flex lg:flex-row flex-col w-full  h-screen">
-        <p>
-            {generatedColors}
-        </p>
+        
         {colorPalattes.map((color:string ,index:number) => {
             return(
                 <Palette key={index     } color={color}/>
