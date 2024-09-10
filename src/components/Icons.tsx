@@ -16,10 +16,12 @@ const CancelIcon = ({ currentColor }: IconType) => (
     stroke-linejoin="round"
     className="cursor-pointer hidden lg:block "
   >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
+<path d="M6 6L18 18" />
+<path d="M18 6L6.00001 18" />
   </svg>
 );
+
+
 
 const CopyIcon = ({ currentColor }: IconType) => (
   <svg

@@ -1,22 +1,41 @@
 import React from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { CancelIcon, CopyIcon, DragIcon, LockIcon, OpenIcon } from './Icons'
+import { useParams } from "next/navigation";
+import { handleColorTextClass } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 type Props = {
-  currentColor : string
+  color : string
 }
 
-const Options = ({currentColor}: Props) => {
+const Options = ({color}: Props) => {
+  const router = useRouter()
+  const currentColor =
+    handleColorTextClass(color) === "white" ? "white" : "black";
+
+  const {slug} = useParams<{slug: string}>();
+
+
+  const handleRemoveColor =(colorToRemove : string) => {
+    const colors = slug.split("-");
+    const updatedColors = colors.filter((c) => c !== colorToRemove.replace(/^#/, ''));
+    console.log(updatedColors);
+    const newRoute = updatedColors.join("-");
+
+    router.replace(newRoute);
+    
+  }
   return (
     <div className="flex flex-row lg:flex-col lg:space-y-4 space-y-0 space-x-4 lg:space-x-0  
-    items-center   ">
+    items-center" onClick={() => handleRemoveColor(color)}>
     
        <div >
          <TooltipProvider>
            <Tooltip>
              <TooltipTrigger>
                {" "}
-               <CancelIcon currentColor={currentColor} />
+               <CancelIcon currentColor={currentColor}  />
              </TooltipTrigger>
 
              <TooltipContent>Remove</TooltipContent>

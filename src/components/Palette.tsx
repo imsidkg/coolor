@@ -52,6 +52,7 @@ import Options from "./Options";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion } from "framer-motion";
 import { columnChildVariant, columVariant } from "@/lib/variants";
+
 extend([namesPlugin]);
 
 type Props = {
@@ -60,6 +61,8 @@ type Props = {
 
 const Palette = ({ color }: Props) => {
   const [colorInstance, setColorInstance] = useState(`#${color}`);
+
+ 
 
   // Function to handle getting the color name
   const handleColorName = (colorHex: string) => {
@@ -70,6 +73,8 @@ const Palette = ({ color }: Props) => {
   const colorTextLumi = handleColorTextClass(colorInstance);
 
   const isDesktop = useMediaQuery("(min-width:768px)");
+
+ 
 
   return (
     <motion.div
@@ -84,12 +89,12 @@ const Palette = ({ color }: Props) => {
     >
       {isDesktop ? (
         <motion.div variants={columnChildVariant}>
-          <Options currentColor={color} />
+          <Options color={colorInstance} />
         </motion.div>
       ) : (
         <div>
          
-          <Options currentColor={color} />
+          <Options color={colorInstance} />
         </div>
       )}
       <div
@@ -102,7 +107,7 @@ const Palette = ({ color }: Props) => {
         <h3 className="text-xl lg:text-[30px] uppercase font-semibold cursor-pointer text-center">
           {colorInstance.replace(/^#/, "")}
         </h3>
-        <Options currentColor={color} />
+      
 
         <p className="text-[11px] opacity-[0.5] capitalize mt-[9px]">
           ~ {colorName}
