@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useCopy = () => {
+export  const useCopy = () => {
     const [copiedText , setCopiedText] = useState<string>();
 
     const copy =async(text : string) => {

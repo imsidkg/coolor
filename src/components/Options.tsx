@@ -9,12 +9,16 @@ import { CancelIcon, CopyIcon, DragIcon, LockIcon, OpenIcon } from "./Icons";
 import { useParams } from "next/navigation";
 import { handleColorTextClass } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useCopy } from "@/hooks/use-copy";
+import { Toast } from "./ui/toast";
+import { useToast } from "./ui/use-toast";
 
 type Props = {
   color: string;
 };
 
 const Options = ({ color }: Props) => {
+  const {copy , copiedText} = useCopy()
   const router = useRouter();
   const currentColor =
     handleColorTextClass(color) === "white" ? "white" : "black";
@@ -31,14 +35,22 @@ const Options = ({ color }: Props) => {
 
     router.replace(newRoute);
   };
+
+  const {toast} = useToast();
+  const handleHexCopy = (color: string) => {
+    copy(color);
+    toast({
+      title: "Color copied to the clipboard!",
+    });
+  };
   return (
     <div
       className="flex flex-row lg:flex-col lg:space-y-4 space-y-0 space-x-4 lg:space-x-0  
     items-center"
-      onClick={() => handleRemoveColor(color)}
+     
     >
       {slug.split("-").length > 2 && (
-        <div>
+        <div  onClick={() => handleRemoveColor(color)}>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -52,7 +64,7 @@ const Options = ({ color }: Props) => {
         </div>
       )}
 
-      <div className="">
+      <div className="" onClick={() => handleHexCopy(color)}>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
