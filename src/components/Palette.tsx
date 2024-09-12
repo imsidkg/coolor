@@ -52,11 +52,15 @@ import Options from "./Options";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion } from "framer-motion";
 import { columnChildVariant, columVariant } from "@/lib/variants";
+import { Reorder } from "framer-motion"
+
 
 extend([namesPlugin]);
 
 type Props = {
   color: string;
+  colors : string[];
+  colorIndex : number
 };
 
 const Palette = ({ color }: Props) => {
@@ -73,14 +77,19 @@ const Palette = ({ color }: Props) => {
   const colorTextLumi = handleColorTextClass(colorInstance);
 
   const isDesktop = useMediaQuery("(min-width:768px)");
-
+  const [draggable , setDraggable] = useState<boolean>(true)
  
 
   return (
-    <motion.div
+    <Reorder.Item
+    value={color}
+    key={color}
+    initial={"start"}
+    dragListener={draggable}
+    onDragEnd={() => setDraggable(false)}
     variants={columVariant}
-    initial={'start'}
-    whileHover={'show'}
+    whileHover={"show"}
+
 
       style={{
         backgroundColor: colorInstance,
@@ -89,12 +98,12 @@ const Palette = ({ color }: Props) => {
     >
       {isDesktop ? (
         <motion.div variants={columnChildVariant}>
-          <Options color={colorInstance} />
+          <Options color={colorInstance} setDraggable = {setDraggable} />
         </motion.div>
       ) : (
         <div>
          
-          <Options color={colorInstance} />
+          <Options color={colorInstance} setDraggable = {setDraggable} />
         </div>
       )}
       <div
@@ -113,7 +122,7 @@ const Palette = ({ color }: Props) => {
           ~ {colorName}
         </p>
       </div>
-    </motion.div>
+    </Reorder.Item>
   );
 };
 

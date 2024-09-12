@@ -6,26 +6,27 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { CancelIcon, CopyIcon, DragIcon, LockIcon, OpenIcon } from "./Icons";
+import { Reorder } from "framer-motion";
 import { useParams } from "next/navigation";
 import { handleColorTextClass } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCopy } from "@/hooks/use-copy";
 import { Toast } from "./ui/toast";
-import { useToast } from "@/hooks/use-toast"
-
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
   color: string;
+  setDraggable: (value: boolean) => void;
 };
 
-const Options = ({ color }: Props) => {
-  const { toast } = useToast()
-  const {copy , copiedText} = useCopy()
+const Options = ({ color , setDraggable }: Props) => {
+  const { slug } = useParams<{ slug: string }>();
+
+  const { toast } = useToast();
+  const { copy, copiedText } = useCopy();
   const router = useRouter();
   const currentColor =
     handleColorTextClass(color) === "white" ? "white" : "black";
-
-  const { slug } = useParams<{ slug: string }>();
 
   const handleRemoveColor = (colorToRemove: string) => {
     const colors = slug.split("-");
@@ -38,28 +39,22 @@ const Options = ({ color }: Props) => {
     router.replace(newRoute);
   };
 
-
   const handleHexCopy = async (color: string) => {
-   
-      
-      await copy(color);
-  
-      
-      toast({
-        title: "Color copied to the clipboard!",
-        description: color, 
-      });
-    
+    await copy(color);
+
+    toast({
+      title: "Color copied to the clipboard!",
+      description: color,
+    });
   };
-  
+
   return (
     <div
       className="flex flex-row lg:flex-col lg:space-y-4 space-y-0 space-x-4 lg:space-x-0  
     items-center"
-     
     >
       {slug.split("-").length > 2 && (
-        <div  onClick={() => handleRemoveColor(color)}>
+        <div onClick={() => handleRemoveColor(color)}>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -86,7 +81,12 @@ const Options = ({ color }: Props) => {
         </TooltipProvider>
       </div>
 
-      <div className="">
+      <div
+        className=""
+        onMouseEnter={() => setDraggable(true)}
+        onMouseLeave={() => setDraggable(false)} // retain this for better animation
+        onTouchStart={() => setDraggable(true)}
+      >
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>

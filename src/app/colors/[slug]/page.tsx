@@ -1,5 +1,6 @@
 'use client'
 import Palette from '@/components/Palette';
+import { Reorder } from 'framer-motion';
 import React, { useState } from 'react'
 
 type Props = {}
@@ -14,14 +15,21 @@ const page = ({params} : {params : {slug:string}} ) => {
 
 
   return (
-    <div className="flex lg:flex-row flex-col w-full  h-screen">
+    <div>
+
+    <Reorder.Group
+    values={colorPalattes}
+    onReorder={setColorPalattes}
+    axis='x'
+    className="flex lg:flex-row flex-col w-full  h-screen">
         
         {colorPalattes.map((color:string ,index:number) => {
-            return(
-                <Palette key={index     } color={color}/>
-            )
+          return(
+            <Palette key={index     } color={color} colors ={colors} colorIndex = {index}/>
+          )
         })}
-    </div>
+    </Reorder.Group>
+        </div>
   )
 }
 
