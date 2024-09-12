@@ -52,21 +52,26 @@ import Options from "./Options";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion } from "framer-motion";
 import { columnChildVariant, columVariant } from "@/lib/variants";
-import { Reorder } from "framer-motion"
-
+import { Reorder } from "framer-motion";
 
 extend([namesPlugin]);
 
 type Props = {
   color: string;
-  colors : string[];
-  colorIndex : number
+  colors: string[];
+  colorIndex: number;
+  lockedHexes: string[];
+  setLockedHexes: (value: string[]) => void;
 };
 
-const Palette = ({ color }: Props) => {
+const Palette = ({
+  color,
+  colors,
+  colorIndex,
+  lockedHexes,
+  setLockedHexes,
+}: Props) => {
   const [colorInstance, setColorInstance] = useState(`#${color}`);
-
- 
 
   // Function to handle getting the color name
   const handleColorName = (colorHex: string) => {
@@ -77,20 +82,28 @@ const Palette = ({ color }: Props) => {
   const colorTextLumi = handleColorTextClass(colorInstance);
 
   const isDesktop = useMediaQuery("(min-width:768px)");
-  const [draggable , setDraggable] = useState<boolean>(true)
- 
+  const [draggable, setDraggable] = useState<boolean>(false);
+
+  const handleHexToggle = (hex: string) => {
+    if (lockedHexes.includes(hex)) {
+      setLockedHexes(
+        lockedHexes.filter((h) => {
+          h !== hex;
+        })
+      );
+    }
+    setLockedHexes([...lockedHexes, hex]);
+  };
 
   return (
     <Reorder.Item
-    value={color}
-    key={color}
-    initial={"start"}
-    dragListener={draggable}
-    onDragEnd={() => setDraggable(false)}
-    variants={columVariant}
-    whileHover={"show"}
-
-
+      value={color}
+      key={color}
+      initial={"start"}
+      dragListener={draggable}
+      onDragEnd={() => setDraggable(false)}
+      variants={columVariant}
+      whileHover={"show"}
       style={{
         backgroundColor: colorInstance,
       }}
@@ -98,12 +111,11 @@ const Palette = ({ color }: Props) => {
     >
       {isDesktop ? (
         <motion.div variants={columnChildVariant}>
-          <Options color={colorInstance} setDraggable = {setDraggable} />
+          <Options toggleHex = {handleHexToggle} lockedHexes={lockedHexes} color={colorInstance} setDraggable={setDraggable} />
         </motion.div>
       ) : (
         <div>
-         
-          <Options color={colorInstance} setDraggable = {setDraggable} />
+          <Options toggleHex = {handleHexToggle} lockedHexes={lockedHexes} color={colorInstance} setDraggable={setDraggable} />
         </div>
       )}
       <div
@@ -116,7 +128,6 @@ const Palette = ({ color }: Props) => {
         <h3 className="text-xl lg:text-[30px] uppercase font-semibold cursor-pointer text-center">
           {colorInstance.replace(/^#/, "")}
         </h3>
-      
 
         <p className="text-[11px] opacity-[0.5] capitalize mt-[9px]">
           ~ {colorName}

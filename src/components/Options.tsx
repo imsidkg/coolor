@@ -17,9 +17,11 @@ import { useToast } from "@/hooks/use-toast";
 type Props = {
   color: string;
   setDraggable: (value: boolean) => void;
+  lockedHexes : string[]
+  toggleHex : (value : string) => void
 };
 
-const Options = ({ color , setDraggable }: Props) => {
+const Options = ({ color , setDraggable, lockedHexes, toggleHex }: Props) => {
   const { slug } = useParams<{ slug: string }>();
 
   const { toast } = useToast();
@@ -48,6 +50,7 @@ const Options = ({ color , setDraggable }: Props) => {
     });
   };
 
+  
   return (
     <div
       className="flex flex-row lg:flex-col lg:space-y-4 space-y-0 space-x-4 lg:space-x-0  
@@ -99,16 +102,16 @@ const Options = ({ color , setDraggable }: Props) => {
         </TooltipProvider>
       </div>
 
-      <div>
+      <div onClick={() => toggleHex(color)}>
         <TooltipProvider>
           <Tooltip>
-            {/* <TooltipTrigger>
+            <TooltipTrigger>
              {lockedHexes?.includes(color) ? (
                <LockIcon currentColor={currentColor} />
              ) : (
                <OpenIcon currentColor={currentColor} />
              )}
-           </TooltipTrigger> */}
+           </TooltipTrigger>
 
             <TooltipContent>Togle lock</TooltipContent>
           </Tooltip>
