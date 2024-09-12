@@ -92,7 +92,10 @@ const Palette = ({
         })
       );
     }
-    setLockedHexes([...lockedHexes, hex]);
+    else {
+
+      setLockedHexes([...lockedHexes, hex]);
+    }
   };
 
   return (
