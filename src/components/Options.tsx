@@ -11,13 +11,15 @@ import { handleColorTextClass } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useCopy } from "@/hooks/use-copy";
 import { Toast } from "./ui/toast";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "@/hooks/use-toast"
+
 
 type Props = {
   color: string;
 };
 
 const Options = ({ color }: Props) => {
+  const { toast } = useToast()
   const {copy , copiedText} = useCopy()
   const router = useRouter();
   const currentColor =
@@ -36,13 +38,20 @@ const Options = ({ color }: Props) => {
     router.replace(newRoute);
   };
 
-  const {toast} = useToast();
-  const handleHexCopy = (color: string) => {
-    copy(color);
-    toast({
-      title: "Color copied to the clipboard!",
-    });
+
+  const handleHexCopy = async (color: string) => {
+   
+      
+      await copy(color);
+  
+      
+      toast({
+        title: "Color copied to the clipboard!",
+        description: color, 
+      });
+    
   };
+  
   return (
     <div
       className="flex flex-row lg:flex-col lg:space-y-4 space-y-0 space-x-4 lg:space-x-0  
