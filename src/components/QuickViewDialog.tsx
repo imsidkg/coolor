@@ -25,7 +25,7 @@ import EyeIcon from "@/assets/eye-open.svg";
 import Image from "next/image";
 import QuickView from "./QuickView";
 
-export function ViewDialog({ colors }: { colors: string[] }) {
+export function QuickViewDialog({ colors }: { colors: string[] }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 

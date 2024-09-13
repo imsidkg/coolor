@@ -4,10 +4,10 @@ import React, { KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { extend } from "colord";
 import namesPlugin from "colord/plugins/names";
 
-import { QuickViewDialog } from "@/components/view-dialog";
-import { SaveDialog } from "@/components/save-dialog";
+import { QuickViewDialog } from "@/components/QuickViewDialog";
+// import { SaveDialog } from "@/components/save-dialog";
 
-import { ExportDialog } from "@/components/export-dialog";
+// import { ExportDialog } from "@/components/export-dialog";
 
 import { useAnimate } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -15,10 +15,11 @@ import { Reorder } from "framer-motion";
 import randomColor from "randomcolor";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { usePDF } from "react-to-pdf";
-import SavedPalettes from "@/components/saved-palettes";
+// import { usePDF } from "react-to-pdf";
+// import SavedPalettes from "@/components/saved-palettes";
 import { MenuIcon, MenuSquare } from "lucide-react";
-import Palette from "@/components/palettes";
+import Palette from "@/components/Palette";
+// import Palette from "@/components/palettes";
 extend([namesPlugin]);
 export default function Page({
   params,
@@ -80,11 +81,11 @@ export default function Page({
 
   const [showSavedPalettes, setShowSavedPalettes] = useState(false);
 
-  const { toPDF, targetRef } = usePDF({
-    method: "save",
-    filename: "palettes.pdf",
-    page: { orientation: "landscape", format: "a5" },
-  });
+  // const { toPDF, targetRef } = usePDF({
+  //   method: "save",
+  //   filename: "palettes.pdf",
+  //   page: { orientation: "landscape", format: "a5" },
+  // });
 
   useEffect(() => {
     animate(
@@ -123,9 +124,9 @@ export default function Page({
         <div className="flex items-center">
           <QuickViewDialog colors={colors} />
 
-          <SaveDialog colors={colors} />
+          {/* <SaveDialog colors={colors} /> */}
 
-          <ExportDialog targetRef={targetRef} handleExportPdf={toPDF} />
+          {/* <ExportDialog targetRef={targetRef} handleExportPdf={toPDF} /> */}
 
           <Button className="border-none " variant={"outline"}>
             <MenuIcon
@@ -140,7 +141,7 @@ export default function Page({
 
       <div>
         <Reorder.Group
-          ref={targetRef}
+          // ref={targetRef}
           className="flex lg:flex-row flex-col w-full  h-screen"
           axis={dynamicAxis}
           values={colorPalettes}
@@ -157,9 +158,9 @@ export default function Page({
             />
           ))}
 
-          {showSavedPalettes ? (
-            <SavedPalettes setShowSavedPalettes={setShowSavedPalettes} />
-          ) : null}
+          {/* {showSavedPalettes ? ( */}
+            {/* // <SavedPalettes setShowSavedPalettes={setShowSavedPalettes} /> */}
+          {/* // ) : null} */}
         </Reorder.Group>
       </div>
     </div>
