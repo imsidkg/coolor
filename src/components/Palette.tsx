@@ -53,6 +53,9 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { motion } from "framer-motion";
 import { columnChildVariant, columVariant } from "@/lib/variants";
 import { Reorder } from "framer-motion";
+import { useRouter } from "next/navigation";
+import ReactGPicker from "react-gcolor-picker";
+import { TooltipProvider, TooltipTrigger, Tooltip, TooltipContent } from "./ui/tooltip";
 
 extend([namesPlugin]);
 
@@ -72,6 +75,7 @@ const Palette = ({
   setLockedHexes,
 }: Props) => {
   const [colorInstance, setColorInstance] = useState(`#${color}`);
+  const [showColorPicker , setShowColorPicker] = useState(false);
 
   // Function to handle getting the color name
   const handleColorName = (colorHex: string) => {
@@ -84,7 +88,7 @@ const Palette = ({
   const isDesktop = useMediaQuery("(min-width:768px)");
   const [draggable, setDraggable] = useState<boolean>(false);
 
-  const handleHexToggle = (hex: string) => {
+  const handleToggleHex = (hex: string) => {
     if (lockedHexes.includes(hex)) {
       setLockedHexes(
         lockedHexes.filter((h) => {
@@ -98,45 +102,98 @@ const Palette = ({
     }
   };
 
+
+  const handlesetColor = (color : string , index : number ) => {
+    console.log(color)
+    const newColor =  color.replace(/^#/ , '');
+    console.log('new color' , newColor)
+
+    if(newColor) {
+      const newColors = [...colors];
+      console.log(newColors)
+      newColors[index] = newColor
+      console.log(newColors)
+
+    }
+  }
+
   return (
     <Reorder.Item
-      value={color}
-      key={color}
-      initial={"start"}
-      dragListener={draggable}
-      onDragEnd={() => setDraggable(false)}
-      variants={columVariant}
-      whileHover={"show"}
-      style={{
-        backgroundColor: colorInstance,
-      }}
-      className="w-full lg:h-screen h-full flex flex-col justify-center items-center px-[5px] relative"
-    >
-      {isDesktop ? (
-        <motion.div variants={columnChildVariant}>
-          <Options toggleHex = {handleHexToggle} lockedHexes={lockedHexes} color={colorInstance} setDraggable={setDraggable} />
-        </motion.div>
-      ) : (
-        <div>
-          <Options toggleHex = {handleHexToggle} lockedHexes={lockedHexes} color={colorInstance} setDraggable={setDraggable} />
-        </div>
-      )}
-      <div
-        className={`lg:absolute bottom-16 left-0 flex flex-col items-center w-full ${
-          colorTextLumi === "white" ? "text-white" : "text-black"
-        }`}
-        style={{ padding: "20px 0" }}
-      >
-        {/* Color hex value */}
-        <h3 className="text-xl lg:text-[30px] uppercase font-semibold cursor-pointer text-center">
-          {colorInstance.replace(/^#/, "")}
-        </h3>
+    value={color}
+    key={color}
+    initial={"start"}
+    dragListener={draggable}
+    onDragEnd={() => setDraggable(false)}
+    variants={columVariant}
+    whileHover={"show"}
+    className="w-full lg:h-screen h-full   flex flex-row-reverse justify-center items-center px-[5px] relative"
+    style={{
+      backgroundColor: `${colorInstance}`,
+    }}
+  >
+    {isDesktop ? (
+      <motion.div variants={columnChildVariant} className="">
+        <Options
+          toggleHex={handleToggleHex}
+          lockedHexes={lockedHexes}
+          color={colorInstance}
+          setDraggable={setDraggable}
+        />
+      </motion.div>
+    ) : (
+      <Options
+        toggleHex={handleToggleHex}
+        lockedHexes={lockedHexes}
+        color={colorInstance}
+        setDraggable={setDraggable}
+      />
+    )}
 
-        <p className="text-[11px] opacity-[0.5] capitalize mt-[9px]">
-          ~ {colorName}
-        </p>
+    {showColorPicker ? (
+      <div className=" p-2 absolute rounded-3xl z-50   " >
+        <ReactGPicker
+          value={colorInstance}
+          onChange={(value) => handlesetColor(value, colorIndex)}
+          showAlpha={false}
+          gradient={false}
+          format="hex"
+        />
       </div>
-    </Reorder.Item>
+    ) : (
+      ""
+    )}
+
+    <div
+      className={`lg:absolute static bottom-16 left-0  flex
+${colorTextLumi === "white" ? "text-white" : "text-black "}
+lg:items-center flex-col w-full mb-1`}
+    >
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            {" "}
+            <h3
+              className={` text-xl  lg:text-[30px] uppercase font-semibold cursor-pointer text-left
+`}
+              onClick={() => setShowColorPicker(true)}
+            >
+              {colorInstance.replace(/^#/, "")}
+
+              <br />
+            </h3>
+          </TooltipTrigger>
+
+          <TooltipContent>Select color</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <p
+        className={`  text-[11px] opacity-[0.5] capitalize inset-0 mt-[9px] `}
+      >
+        ~{colorName}
+      </p>
+    </div>
+  </Reorder.Item>
   );
 };
 
