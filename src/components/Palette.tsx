@@ -77,10 +77,31 @@ const Palette = ({
   const [colorInstance, setColorInstance] = useState(`#${color}`);
   const [showColorPicker , setShowColorPicker] = useState(false);
 
-  // Function to handle getting the color name
   const handleColorName = (colorHex: string) => {
     return colord(colorHex).toName({ closest: true });
   };
+
+   // click outside color picker
+   const onClickOutside = () => {
+    console.log(newColorPalettes); 
+
+    // replace route if newcolorpalettes is selected
+    if (newColorPalettes.length) {
+      const newRoute = newColorPalettes.join("-");
+
+      console.log(newRoute);
+      navigate.replace(`/color/${newRoute}`);
+    }
+
+    setShowColorPicker(false);
+  };
+
+  
+
+  const clickRef = useClickOutside(onClickOutside);
+
+
+
 
   const colorName = handleColorName(colorInstance);
   const colorTextLumi = handleColorTextClass(colorInstance);
