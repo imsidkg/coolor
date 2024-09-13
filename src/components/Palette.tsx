@@ -82,7 +82,7 @@ export default function Palette({
 
   const navigate = useRouter();
 
-  // click outside color picker
+ 
   const onClickOutside = () => {
     console.log(newColorPalettes); 
 
@@ -91,7 +91,7 @@ export default function Palette({
       const newRoute = newColorPalettes.join("-");
 
       console.log(newRoute);
-      navigate.replace(`/color/${newRoute}`);
+      navigate.replace(`/colors/${newRoute}`);
     }
 
     setShowColorPicker(false);
