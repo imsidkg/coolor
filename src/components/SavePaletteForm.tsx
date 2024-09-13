@@ -19,8 +19,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { title } from "process";
-import { client } from "../../supabase/createClient";
+
 import { useToast } from "@/hooks/use-toast";
+import { client } from "../../supabase/createClient";
+
+
+
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -32,13 +36,15 @@ const formSchema = z.object({
   }),
 });
 
-export default function SavePalettesForm({
+export default  function SavePalettesForm({
   colors,
   setOpen,
 }: {
   colors: string[];
   setOpen: (value: boolean) => void;
 }) {
+    
+   
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,6 +68,7 @@ export default function SavePalettesForm({
     setLoading(true);
 
     try {
+       
       await client.from("palettes").insert({
         title: values.title,
         desc: values.description,

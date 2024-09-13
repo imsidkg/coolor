@@ -8,6 +8,8 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { client } from "../../supabase/createClient";
 
+
+
 type db = Database["public"]["Tables"]["palettes"]["Row"];
 
 export default function SavedPalettes({
@@ -17,6 +19,7 @@ export default function SavedPalettes({
 }) {
   const [SavedPalettes, setSavedPalettes] = useState<db[] | null>([]);
   const [isLoading, setIsLoading] = useState(false);
+  
 
   useEffect(() => {
     setIsLoading(true);

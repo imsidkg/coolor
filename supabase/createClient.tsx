@@ -1,12 +1,13 @@
+// 'use client'
 // import { useSession, useUser } from '@clerk/nextjs'
 // import { createClient } from '@supabase/supabase-js'
 
-// export default function Home() {
+
 // 	// The `useSession()` hook will be used to get the Clerk `session` object
-// 	const { session } = useSession()
 	
 // 	// Create a custom supabase client that injects the Clerk Supabase token into the request headers
-// 	function createClerkSupabaseClient() {
+// 	 function createClerkSupabaseClient() {
+// 		const { session } = useSession()
 // 	  return createClient(
 // 	    process.env.NEXT_PUBLIC_SUPABASE_URL!,
 // 	    process.env.NEXT_PUBLIC_SUPABASE_KEY!,
@@ -35,18 +36,10 @@
 // 	    },
 // 	  )
 // 	}
+// 	export const client = createClerkSupabaseClient();
 
 	
 // 	//... The rest of the code is removed for brevity
-// export const client = createClerkSupabaseClient();
-
-
-
-
-
-
-
-
 
 
 
